@@ -3,7 +3,7 @@ import logging
 import subprocess
 import boto3
 import packaging.version
-# from  import __version__ as ssm_tools_version
+# from  import __version__ as cb_ssm_tools_version
 version = '0.0.1'
 
 __all__ = []
@@ -59,7 +59,7 @@ def show_version(args):
     """
     Show package version and exit.
     """
-    version_string = f"ssm-tools/{version}"
+    version_string = f"cb-ssm-tools/{version}"
     if args.log_level <= logging.INFO:
         version_string += f" python/{sys.version_info.major}.{sys.version_info.minor}.{sys.version_info.micro}"
         version_string += f" boto3/{boto3.__version__}"
