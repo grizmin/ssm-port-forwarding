@@ -33,8 +33,8 @@ class SsmTalker():
         self.shell_prompt = self._child.after
 
         # Turn off input echo
-        # self._child.sendline('stty -echo')
-        # self.wait_for_prompt()
+        self._child.sendline('stty -echo')
+        self.wait_for_prompt()
 
         # Change to home directory (SSM session starts in '/')
         self._child.sendline('cd')
@@ -53,6 +53,7 @@ class SsmTalker():
 
         self._logger.debug(f"Spawning: {command}")
         self._child = pexpect.spawn(command, echo=True, encoding='utf-8', timeout=10)
+
         # self._child.logfile_read = sys.stderr
         self._logger.debug(f"PID: {self._child.pid}")
         self._child.expect('Starting session with SessionId')

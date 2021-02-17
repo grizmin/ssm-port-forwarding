@@ -71,7 +71,7 @@ def main():
     logger = configure_logging(logger_name, args.log_level)
 
     socat_session = pfw_session = None
-    print(f"local port: {args.lport}")
+    logger.info(f"local port: {args.lport}")
 
     try:
         socat_session = spawn_socat(SPORT, args.HOSTPORT)
