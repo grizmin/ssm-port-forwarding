@@ -50,7 +50,7 @@ def spawn_port_forwarding_ssm_session(profile: str, region: str, instance: str, 
     Returns:
         Session Manager session
     """
-    pfwsession = ForwardingSMSession(instance, profile, region, session_type='forwarding',
+    pfwsession = ForwardingSMSession(instance, profile, region,
                      document_name='AWS-StartPortForwardingSession',
                      parameters=f'{{\\"portNumber\\":[\\"{source_port}\\"],\\"localPortNumber\\":[\\"{lport}\\"]}}')
 
