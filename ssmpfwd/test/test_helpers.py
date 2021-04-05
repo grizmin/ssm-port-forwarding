@@ -28,6 +28,7 @@ class TestVerboseDebugQuiet(unittest.TestCase):
         def test_func():
             pass
         self.vdq = test_func
+        self.vdq()
 
     def test_quiet(self):
         option_name = 'quiet'
