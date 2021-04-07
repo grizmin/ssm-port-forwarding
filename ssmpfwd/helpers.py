@@ -78,9 +78,7 @@ def verbose_debug_quiet(function):
         return value
 
     verbose_debug_quiet_options = [
-        click.option(
-            "--loglevel", "log_level", hidden=True, flag_value=logging.WARN, callback=_set_level, expose_value=False, is_eager=True, default=True
-        ),
+        click.option("--loglevel", "log_level", hidden=True, flag_value=logging.WARN, callback=_set_level, expose_value=False, is_eager=True, default=True),
         click.option(
             "--verbose",
             "-v",
@@ -129,9 +127,7 @@ def verify_plugin_version(version_required: str) -> bool:
     except FileNotFoundError as e:
         logger.error(f"{session_manager_plugin} not installed")
 
-    logger.error(
-        "Check out https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager-working-with-install-plugin.html for instructions"
-    )
+    logger.error("Check out https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager-working-with-install-plugin.html for instructions")
 
     return False
 

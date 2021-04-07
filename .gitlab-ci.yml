@@ -12,8 +12,8 @@ test:
     - Summoner
   script:
     - pip3 install -r requirements-dev.txt
-    - black --line-length 150 --check ssmpfwd
-    - tox -e py39-local -e report
+    - black --line-length 160 --check ssmpfwd
+    - tox -e py36-local,report
   except:
     - merge_requests
 
