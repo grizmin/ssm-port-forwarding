@@ -17,6 +17,10 @@ setup(
         'packaging',
         'awscli'
     ],
+    tests_require=[
+        'pytest'
+        'coverage'
+    ],
     entry_points='''
         [console_scripts]
         ssmpfwd=ssmpfwd.cli.cli:cli

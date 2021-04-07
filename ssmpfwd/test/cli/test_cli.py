@@ -1,7 +1,6 @@
 from click.testing import CliRunner
 from unittest.mock import MagicMock, patch, Mock
 from ssmpfwd.cli.cli import spawn_socat, spawn_port_forwarding_ssm_session
-import pytest
 import pexpect
 
 
@@ -57,7 +56,7 @@ class TestCli(unittest.TestCase):
         e = pexpect.exceptions.EOF("Some exception")
         spawn_port_forwarding_ssm_session.return_value.child.interact.side_effect = e
         result = self.runner.invoke(cli.cli,
-                '--region us-east-1 forward i-0616ea1bf6338cce6 10.243.9.78:22')
+                'forward --region us-east-1 i-0616ea1bf6338cce6 10.243.9.78:22')
 
         spawn_port_forwarding_ssm_session.return_value.exit.assert_called_once()
         spawn_socat.return_value.exit.assert_called_once()
@@ -67,7 +66,7 @@ class TestCli(unittest.TestCase):
     @patch('ssmpfwd.cli.cli.spawn_socat', autospec=True)
     def test_cli_forward(self,spawn_socat , spawn_port_forwarding_ssm_session):
         result = self.runner.invoke(cli.cli,
-                '--region us-east-1 forward i-0616ea1bf6338cce6 10.243.9.78:22')
+                'forward --region us-east-1 i-0616ea1bf6338cce6 10.243.9.78:22')
         source_port = spawn_port_forwarding_ssm_session.call_args[0][-1]
         local_port = spawn_port_forwarding_ssm_session.call_args[0][-2]
         spawn_socat.assert_called_once_with('default', 'us-east-1', 'i-0616ea1bf6338cce6',
@@ -82,16 +81,16 @@ class TestCli(unittest.TestCase):
     def test_cli_command_mocked(self):
         mock_command_forward = MagicMock()
         result = self.runner.invoke(mock_command_forward,
-                                    '--region us-east-1 forward i-0616ea1bf6338cce6 10.243.9.78:22')
+                                    'forward --region us-east-1  i-0616ea1bf6338cce6 10.243.9.78:22')
         assert mock_command_forward.main.mock_calls[0][2]['args'] == \
-               ['--region', 'us-east-1', 'forward', 'i-0616ea1bf6338cce6', '10.243.9.78:22']
+               ['forward', '--region', 'us-east-1', 'i-0616ea1bf6338cce6', '10.243.9.78:22']
 
     @patch('ssmpfwd.cli.cli.spawn_port_forwarding_ssm_session', autospec=True)
     @patch('ssmpfwd.cli.cli.spawn_socat', autospec=True)
     @patch('logging.Logger.info')
     def test_cli_forward_debug(self, mock, _1, _2):
         self.runner.invoke(cli.cli,
-                           '--region us-east-1 forward i-0616ea1bf6338cce6 10.243.9.78:22 --debug')
+                           'forward --region us-east-1 i-0616ea1bf6338cce6 10.243.9.78:22 --debug')
         mock.assert_any_call('Logger set to DEBUG')
 
     @patch('ssmpfwd.cli.cli.spawn_port_forwarding_ssm_session', autospec=True)
@@ -100,5 +99,5 @@ class TestCli(unittest.TestCase):
     def test_cli_forward_verbose(self, mock, _1, _2):
 
         self.runner.invoke(cli.cli,
-                           '--region us-east-1 forward i-0616ea1bf6338cce6 10.243.9.78:22 --verbose')
+                           'forward --region us-east-1 i-0616ea1bf6338cce6 10.243.9.78:22 --verbose')
         mock.assert_any_call('Logger set to INFO')
