@@ -1,0 +1,34 @@
+stages:
+  - test
+  - test-installation
+
+test:
+  only:
+    refs:
+      - branches
+  image: artifactory-pub.bit9.local:5000/cookiemonster-phoenix-centos7-python36:master
+  stage: test
+  tags:
+    - Summoner
+  script:
+    - pip3 install -r requirements-dev.txt
+    - black --line-length 150 --check ssmpfwd
+    - tox -e py39-local -e report
+  except:
+    - merge_requests
+
+test-installation:
+  only:
+    refs:
+      - branches
+  image: artifactory-pub.bit9.local:5000/cookiemonster-phoenix-centos7-python36:master
+  stage: test
+  tags:
+    - Summoner
+  script:
+    - pip3 install -no-cache-dir -e .
+    - ssmpfwd --help
+    - ssmpfwd --version
+  except:
+    - merge_requests
+    - master

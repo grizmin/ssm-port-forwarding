@@ -7,7 +7,7 @@ from ssmpfwd.smsession import SMSession, ConsoleSMSession, ForwardingSMSession
 
 logger = configure_logging("ssmpfwd", logging.WARN)
 
-if not verify_plugin_version('1.2.54'):
+if not verify_plugin_version("1.2.54"):
     exit(1)
 
 
@@ -34,8 +34,7 @@ def spawn_socat(profile: str, region: str, instance: str, source_port: int, host
     return socat
 
 
-def spawn_port_forwarding_ssm_session(profile: str, region: str, instance: str, lport: int,
-                                      source_port: int) -> SMSession:
+def spawn_port_forwarding_ssm_session(profile: str, region: str, instance: str, lport: int, source_port: int) -> SMSession:
     """
     Creates port forwarding Sessions manager session
 
@@ -50,9 +49,13 @@ def spawn_port_forwarding_ssm_session(profile: str, region: str, instance: str, 
     Returns:
         Session Manager session
     """
-    pfwsession = ForwardingSMSession(instance, profile, region,
-                     document_name='AWS-StartPortForwardingSession',
-                     parameters=f'{{\\"portNumber\\":[\\"{source_port}\\"],\\"localPortNumber\\":[\\"{lport}\\"]}}')
+    pfwsession = ForwardingSMSession(
+        instance,
+        profile,
+        region,
+        document_name="AWS-StartPortForwardingSession",
+        parameters=f'{{\\"portNumber\\":[\\"{source_port}\\"],\\"localPortNumber\\":[\\"{lport}\\"]}}',
+    )
 
     pfwsession.connect()
     return pfwsession
@@ -60,8 +63,7 @@ def spawn_port_forwarding_ssm_session(profile: str, region: str, instance: str, 
 
 @click.group(chain=False)
 @verbose_debug_quiet
-@click.option('--version', is_flag=True, callback=print_version,
-              expose_value=False, is_eager=False)
+@click.option("--version", is_flag=True, callback=print_version, expose_value=False, is_eager=False)
 @click.pass_context
 def cli(ctx: click.Context, *args, **kwargs):
     ctx.ensure_object(dict)
@@ -73,10 +75,8 @@ def cli(ctx: click.Context, *args, **kwargs):
 @click.argument("HOSTPORT", type=click.STRING)
 @click.option("--lport", type=click.INT, default=random.randint(1025, 65535), help="Local port")
 @click.option("--sport", type=click.INT, default=random.randint(1025, 65535), help="Source port")
-@click.option("--profile", type=str, default="default", envvar='AWS_DEFAULT_PROFILE',
-              help="Configuration profile from ~/.aws/{credentials,config}")
-@click.option("--region", type=str, default="us-east-1", envvar='AWS_DEFAULT_REGION',
-              help="AWS region")
+@click.option("--profile", type=str, default="default", envvar="AWS_DEFAULT_PROFILE", help="Configuration profile from ~/.aws/{credentials,config}")
+@click.option("--region", type=str, default="us-east-1", envvar="AWS_DEFAULT_REGION", help="AWS region")
 @verbose_debug_quiet
 @click.pass_context
 def command_forward(ctx, *args, **kwargs):
@@ -85,8 +85,8 @@ def command_forward(ctx, *args, **kwargs):
     region = ctx.obj.get("region")
     hostport = ctx.obj.get("hostport")
     utility_host_id = ctx.obj.get("utilityhostid")
-    local_port = ctx.obj.get('lport')
-    source_port = ctx.obj.get('sport')
+    local_port = ctx.obj.get("lport")
+    source_port = ctx.obj.get("sport")
     socat_session = pfw_session = None
     logger.info(f"local port: {local_port}")
 
@@ -97,9 +97,9 @@ def command_forward(ctx, *args, **kwargs):
         pfw_session.child.interact()
 
     except pexpect.exceptions.EOF as e:
-        if 'The security token included in the request is expired' in e.value:
-            print('Check your credentials. Security token has expired.')
-        elif 'is not connected.' in e.value:
+        if "The security token included in the request is expired" in e.value:
+            print("Check your credentials. Security token has expired.")
+        elif "is not connected." in e.value:
             print(f"Instance {utility_host_id} does not exist in region {region}.")
         else:
             logger.error(e)

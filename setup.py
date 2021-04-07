@@ -18,8 +18,9 @@ setup(
         'awscli'
     ],
     tests_require=[
-        'pytest'
-        'coverage'
+        'pytest',
+        'coverage',
+        'tox'
     ],
     entry_points='''
         [console_scripts]
