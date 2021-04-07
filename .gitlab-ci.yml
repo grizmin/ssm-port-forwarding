@@ -1,12 +1,16 @@
 stages:
   - test
-  - test-installation
+
+default:
+  image: artifactory-pub.bit9.local:5000/cookiemonster-phoenix-centos7-python36:master
+  before_script:
+    - curl "https://s3.amazonaws.com/session-manager-downloads/plugin/latest/linux_64bit/session-manager-plugin.rpm" -o "session-manager-plugin.rpm"
+    - yum install -y session-manager-plugin.rpm
 
 test:
   only:
     refs:
       - branches
-  image: artifactory-pub.bit9.local:5000/cookiemonster-phoenix-centos7-python36:master
   stage: test
   tags:
     - Summoner
@@ -21,7 +25,6 @@ test-installation:
   only:
     refs:
       - branches
-  image: artifactory-pub.bit9.local:5000/cookiemonster-phoenix-centos7-python36:master
   stage: test
   tags:
     - Summoner
