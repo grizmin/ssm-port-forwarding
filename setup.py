@@ -2,12 +2,12 @@ from setuptools import setup, find_packages
 
 setup(
     name="ssm-port-forwarding",
-    version="0.0.1",
+    version="0.0.4",
     packages=find_packages(),
-    url="https://gitlab.bit9.local/kkonstantin/ssm-port-forwarding",
+    url="https://github.com/grizmin/ssm-port-forwarding",
     license="MIT",
     author="Konstantin Krastev",
-    author_email="kkonstantin@vmware.com",
+    author_email="grizmin@grizmin.org",
     description="session manager remote port forwarding utility",
     include_package_data=True,
     install_requires=["Click", "pexpect", "boto3", "packaging", "awscli"],
