@@ -14,7 +14,8 @@ setup(
         'Click',
         'pexpect',
         'boto3',
-        'packaging'
+        'packaging',
+        'awscli'
     ],
     entry_points='''
         [console_scripts]

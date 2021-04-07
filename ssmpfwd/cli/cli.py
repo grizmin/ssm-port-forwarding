@@ -60,10 +60,6 @@ def spawn_port_forwarding_ssm_session(profile: str, region: str, instance: str, 
 
 @click.group(chain=False)
 @verbose_debug_quiet
-@click.option("--profile", type=str, default="default", envvar='AWS_DEFAULT_PROFILE',
-              help="Configuration profile from ~/.aws/{credentials,config}")
-@click.option("--region", type=str, default="us-east-1", envvar='AWS_DEFAULT_REGION',
-              help="AWS region")
 @click.option('--version', is_flag=True, callback=print_version,
               expose_value=False, is_eager=False)
 @click.pass_context
