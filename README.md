@@ -45,7 +45,7 @@ _SSMPFWD_COMPLETE=source_zsh ssmpfwd > ssmpfwd-complete.sh
 
 To use `ssmpfwd` you must have the AWS Instance ID of the **utility host** which has network connectivity to the remote resource you want to access.
 
-Example forwarding port a local port to an RDS instance in dev1 hub on confer-test account.
+Example forwarding port a local port to an RDS instance in dev1 hub on test-account account.
 
 ```bash
 ssmpfwd forward --profile test-account-oktaRole --region us-east-1 i-0616ea1234338cce6 dev01-abc-db-aurora.cluster-ro-c1ejzt2222.us-east-1.rds.amazonaws.com:5432
